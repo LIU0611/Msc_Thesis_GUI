@@ -1,4 +1,4 @@
-# Msc_Yuxuan
+# Msc_Thesis_Yuxuan
 
 The databases used in laser spectroscopy generally include line specific information about the following parameters:
 • Absorption line positions, i.e. transition frequencies (wavenumbers). Since each molecular species has its own characteristic spectrum (“molecular fingerprint”), the line positions make it possible to identify different species in the gas mixture unambiguously.
