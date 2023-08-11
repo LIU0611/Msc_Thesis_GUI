@@ -1,17 +1,1 @@
-The equation you provided describes the total pressure-broadened linewidth (\( \gamma_{\text{total}} \)) of a spectral line in a gas mixture, taking into account both self-broadening and air-broadening effects. Let's break down the equation:
 
-\[ \gamma_{\text{total}} = \text{VMR} \times \gamma_{\text{self}} + (1 - \text{VMR}) \times \gamma_{\text{air}} \]
-
-Where:
-
-- \( \gamma_{\text{total}} \): Total pressure-broadened linewidth in the gas mixture.
-  
-- \( \text{VMR} \): Volume Mixing Ratio of the target gas in the mixture. It represents the fraction (by volume) of the target gas in the mixture. For example, a VMR of 0.01 means the target gas constitutes 1% of the total gas mixture by volume.
-
-- \( \gamma_{\text{self}} \): Self-broadened linewidth of the target gas. This parameter describes the broadening effect due to collisions between molecules of the same species (i.e., the target gas itself).
-
-- \( \gamma_{\text{air}} \): Air-broadened linewidth of the target gas. This parameter describes the broadening effect due to collisions between molecules of the target gas and other constituents of air (e.g., N2, O2).
-
-The equation essentially calculates a weighted average of the self-broadened and air-broadened linewidths based on the concentration (VMR) of the target gas in the mixture.
-
-In practical applications, this equation is useful when analyzing gas samples that are not pure but are mixtures with air or other gases. By considering both self-broadening and air-broadening effects, one can achieve a more accurate representation of the spectral line shape in the mixture.
