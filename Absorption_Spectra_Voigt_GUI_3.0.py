@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from hapi import db_begin, fetch, absorptionCoefficient_Voigt
-import tkinter as tk
+from hapi.hapi import db_begin, fetch, absorptionCoefficient_Voigt
+from tkinter import *
 from tkinter import ttk, messagebox, simpledialog
-
+import tkinter as tk
 from datetime import datetime
 
 # Get the current date and time
@@ -467,7 +467,3 @@ def reset_gases():
 ttk.Button(root, text="Reset Gases", command=reset_gases).grid(row=10, column=0, columnspan=2, pady=10)
 
 root.mainloop()
-
-
-
-
