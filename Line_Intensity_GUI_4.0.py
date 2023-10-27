@@ -1,10 +1,12 @@
-from hapi import *
+from hapi.hapi import *
 import matplotlib.pyplot as plt
 import numpy as np
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk, messagebox
 import os
 import csv
+import ttkthemes as ttkth
 
 from datetime import datetime
 
@@ -336,7 +338,7 @@ unit_conversion_map = {
     "Frequency (GHz)": frequency_to_wavenumber
 }
 
-def on_molecule_selected(event):
+def on_molecule_selected(*args):
     # Clear the isotopologue dropdown
     print(f'Molecule selected: {molecule_var.get()}')
     isotopologue_dropdown['values'] = []
@@ -350,7 +352,7 @@ def on_molecule_selected(event):
     root.update()
 
 
-def download_data():
+def download_data(*args):
     molecule = molecule_var.get()
     isotopologue = isotopologue_var.get()
 
@@ -442,9 +444,8 @@ def fetch_and_plot():
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
 
-
 # Create the main window
-root = tk.Tk()
+root = ttkth.ThemedTk(theme="Arc")
 root.title("Input Parameters")
 
 # Create and set variables
