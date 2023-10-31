@@ -120,7 +120,6 @@ ISOTOPOLOGUES = {
         "13C18O": {"id": 5, "abundance": 2.222500e-5},
         "13C17O": {"id": 6, "abundance": 4.132920e-6}
     },
-# ... [Continuing from where we left off] ...
 
     "CH4": {
         "12CH4": {"id": 1, "abundance": 0.988274},
@@ -171,8 +170,6 @@ ISOTOPOLOGUES = {
         "D35Cl": {"id": 3, "abundance": 1.180050e-4},
         "D37Cl": {"id": 4, "abundance": 3.773500e-5}
     },
-# ... [Continuing from where we left off] ...
-
     "HBr": {
         "H79Br": {"id": 1, "abundance": 0.506781},
         "H81Br": {"id": 2, "abundance": 0.493063},
@@ -223,8 +220,6 @@ ISOTOPOLOGUES = {
         "H12C13CH": {"id": 2, "abundance": 0.021966},
         "H12C12CD": {"id": 3, "abundance": 3.045500e-4}
     },
-# ... [Continuing from where we left off] ...
-
     "C2H6": {
         "12C2H6": {"id": 1, "abundance": 0.976990},
         "12CH313CH3": {"id": 2, "abundance": 0.021953}
@@ -446,7 +441,7 @@ def fetch_and_plot():
 
 # Create the main window
 root = ttkth.ThemedTk(theme="Arc")
-root.title("Input Parameters")
+root.title("Line Intensity GUI 4.0")
 
 # Create and set variables
 molecule_var = tk.StringVar()
