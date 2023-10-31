@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from hapi.hapi import db_begin, fetch, absorptionCoefficient_Voigt
+from hapi import db_begin, fetch, absorptionCoefficient_Voigt
 from tkinter import *
 from tkinter import ttk, messagebox, simpledialog
 import tkinter as tk
