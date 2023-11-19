@@ -18,6 +18,14 @@ Figure 3: Simulated HITRAN molecular absorption line Intensity of carbon monoxid
 
 Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code for Absorption Spectra Voigt for Mixed Gases. This GUI was developed to analyze absorption spectra using the Voigt profile for mixed gases, ensuring compatibility with the volume mixing ratio (VMR) in the original function (spectra of different molecular species on the same plots, such that shown are (i) individual spectra of different species in different colors and (ii) the total spectrum, which is the sum of individual spectra.), considering user-defined parameters such as volume mixing ratio, temperature, pressure, and path length for selected molecular species and isotopologies.
 
+<img width="542" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/17c3529e-b26d-49c1-8505-a9e2d8957434">
+
+Figure 4: Absorption Spectra Voigt GUI Main Window
+
+<img width="471" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/71db3226-07b5-4347-9f16-d3b53d7d851c">
+
+Figure 5: Absorption Spectra Voigt GUI Window for Adding a New Gas
+
 # Database
 
 Laser spectroscopy databases contain line-specific information, including absorption line positions for species identification, line strength for concentration calculations, and line widths for trace gas quantification. They also include additional parameters for temperature and pressure-dependent corrections. The HITRAN (High-resolution transmission molecular absorption database) is a popular choice, featuring millions of absorption lines for 55 molecules, including different isotopologues, and is regularly updated.
