@@ -12,11 +12,11 @@ Line_Intensity_GUI_4.0.py is the graphical user interface (GUI) code for Line In
   
   <img width="454" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/ed490291-6d0e-4a0b-a4c0-5d02212b4e09">
   
-  Figure 3: Simulated HITRAN molecular absorption line Intensity of carbon monoxide. The P-branch is to the left of the gap at 2140(cm-1), and the R-branch is on the right. (Plot by my Line Intensity GUI code)
+  Figure 3: Simulated HITRAN molecular absorption line Intensity of carbon monoxide. The P-branch is to the left of the gap at 2140(cm^-1), and the R-branch is on the right. (Plot by my Line Intensity GUI code)
 
 # Absorption Spectra Voigt GUI
 
-Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code for Absorption Spectra Voigt for Mixed Gases. This GUI was developed to analyze absorption spectra using the Voigt profile for mixed gases, ensuring compatibility with the volume mixing ratio (VMR) in the original function (spectra of different molecular species on the same plots, such that shown are (i) individual spectra of different species in different colors and (ii) the total spectrum, which is the sum of individual spectra.), considering user-defined parameters such as volume mixing ratio, temperature, pressure, and path length for selected molecular species and isotopologies.
+Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code for Absorption Spectra Voigt for Mixed Gases. This GUI was developed to analyze absorption spectra using the Voigt profile for mixed gases, ensuring compatibility with the volume mixing ratio (VMR) in the original function (spectra of different molecular species on the same plots, such that shown are (i) individual spectra of different species in different colors and (ii) the total spectrum, which is the sum of individual spectra.), considering user-defined parameters such as volume mixing ratio, temperature, pressure, and path length for selected molecular species and isotopologies. Absorption_Spectra_Voigt_GUI_download_data.py is the graphical user interface (GUI) code for data download.
 
   <img width="542" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/17c3529e-b26d-49c1-8505-a9e2d8957434">
   
@@ -25,10 +25,17 @@ Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code f
   <img width="471" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/71db3226-07b5-4347-9f16-d3b53d7d851c">
   
   Figure 5: Absorption Spectra Voigt GUI Window for Adding a New Gas
+
+  <img width="410" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/96f40521-93cd-4adc-8b6a-eb28947a1027">
+
+  Figure 6: Absorption Spectra Voigt GUI Window for Downloading Data
   
   <img width="455" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/35bd5318-c069-4ee9-b443-a4d6cb8096f2">
   
-  Figure 6. Absorption Spectra Voigt Comparison of gases mixture (H216O, VMR: 2.5\bullet{10}^{-3}; 12C1602, VMR: 4\bullet{10}^{-4}; 14NH3, VMR: 1.5\bullet{10}^{-7}) in the Range 929.5-932.0 cm-1 (Wavenumber Unit, Length: 10 cm; Pressures: 1013.25 mbar; Temperature: 296 K)
+  Figure 7: Comparison of Absorption Spectra Using Voigt Profiles for a Gas Mixture in the Range 929.5-932.0 cm^-1
+  - Gases: H₂¹⁶O (VMR: 2.5×10^-3), ¹²C¹⁶O₂ (VMR: 4×10^-4), ¹⁴NH₃ (VMR: 1.5×10^-7)
+  - Conditions: Path Length - 10 cm; Pressure - 1013.25 mbar; Temperature - 296 K
+
 
 # Database
 
