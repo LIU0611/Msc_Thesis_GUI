@@ -1,12 +1,9 @@
-from hapi import *
 import matplotlib.pyplot as plt
 import numpy as np
+from hapi import db_begin, fetch, absorptionCoefficient_Voigt
+from tkinter import *
+from tkinter import ttk, messagebox, simpledialog
 import tkinter as tk
-from tkinter import ttk, messagebox
-import os
-import csv
-import ttkthemes as ttkth
-
 from datetime import datetime
 
 # Get the current date and time
@@ -14,7 +11,6 @@ current_time = datetime.now()
 
 print(f"The HITRAN database current date is {current_time}") # database current date
 
-# Define the molecules and their corresponding IDs for demonstration purposes
 MOLECULES = {
     "H2O": 1,
     "CO2": 2,
@@ -319,165 +315,156 @@ ISOTOPOLOGUES = {
     }
 }
 
-def wavenumber_to_wavenumber(lower, upper):
-    return lower, upper, lambda x: x  # No conversion needed for wavenumber
-
-def wavelength_to_wavenumber(lower, upper):
-    return 1e4 / upper, 1e4 / lower, lambda x: 1e4 / np.array(x)  # Convert wavenumber to wavelength
-
-def frequency_to_wavenumber(lower, upper):
-    return lower * 1e9 / (3e10), upper * 1e9 / (3e10), lambda x: np.array(x) * 3e10 / 1e9  # Convert wavenumber to frequency
-
-unit_conversion_map = {
-    "Wavenumber (cm-1)": wavenumber_to_wavenumber,
-    "Wavelength (μm)": wavelength_to_wavenumber,
-    "Frequency (GHz)": frequency_to_wavenumber
-}
-
-def on_molecule_selected(*args):
-    # Clear the isotopologue dropdown
-    print(f'Molecule selected: {molecule_var.get()}')
-    isotopologue_dropdown['values'] = []
-    isotopologue_var.set('')
-
-    # Update the isotopologue dropdown based on the selected molecule
-    molecule = molecule_var.get()
-    if molecule in ISOTOPOLOGUES:
-        isotopologues = list(ISOTOPOLOGUES[molecule].keys())
-        isotopologue_dropdown['values'] = isotopologues
-    root.update()
-
-
-def download_data(*args):
-    molecule = molecule_var.get()
-    isotopologue = isotopologue_var.get()
-
-    lower_bound = float(lower_bound_var.get())
-    upper_bound = float(upper_bound_var.get())
-
-    unit_conversion_func = unit_conversion_map[unit_var.get()]
-    lower_bound, upper_bound, x_conversion_func = unit_conversion_func(lower_bound, upper_bound)
-
+def fetch_and_plot(gases, lower_bound, upper_bound, Length, Pressure, Temperature, y_axis, unit):
     db_begin('data')
+    total_coef = np.zeros(int((upper_bound - lower_bound) / 0.01) + 1)
+    nu_total = np.linspace(lower_bound, upper_bound, len(total_coef))
+    plt.figure(figsize=(10, 6))
 
-    try:
-        filename = f'{molecule}_{isotopologue}_{lower_bound}_{upper_bound}.csv'
-        with open(filename, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(['X', 'Y'])  # header row
-            if isotopologue == "All":
-                x_common = np.linspace(lower_bound, upper_bound, 1000)  # Common x-values
-                y_total = np.zeros_like(x_common)
-
-                for iso, data in ISOTOPOLOGUES[molecule].items():
-                    try:
-                        fetch(molecule, MOLECULES[molecule], data["id"], lower_bound, upper_bound)
-                        x, y = getStickXY(molecule)
-                        x = x_conversion_func(x)
-                        y_interp = np.interp(x_common, x, y, left=0, right=0)  # Interpolate y-values to common x-values
-                        y_total += y_interp * data["abundance"]
-                    except:
-                        # If data retrieval fails for an isotopologue, skip it and continue
-                        continue
-                for x_val, y_val in zip(x_common, y_total):
-                    writer.writerow([x_val, y_val])
-            else:
-                isotopologue_group = ISOTOPOLOGUES[molecule][isotopologue]["id"]
-                fetch(molecule, MOLECULES[molecule], isotopologue_group, lower_bound, upper_bound)
-                x, y = getStickXY(molecule)
-                x = x_conversion_func(x)
-                for x_val, y_val in zip(x, y):
-                    writer.writerow([x_val, y_val])
-        messagebox.showinfo("Data Downloaded", f"Data has been downloaded to {os.path.abspath(filename)}")
-    except Exception as e:
-        messagebox.showerror("Error", f"An error occurred: {e}")
-
-def fetch_and_plot():
-    molecule = molecule_var.get()
-    isotopologue = isotopologue_var.get()
-
-    lower_bound = float(lower_bound_var.get())
-    upper_bound = float(upper_bound_var.get())
-    y_axis = y_axis_var.get()
-
-    unit_conversion_func = unit_conversion_map[unit_var.get()]
-    lower_bound, upper_bound, x_conversion_func = unit_conversion_func(lower_bound, upper_bound)
-
-    db_begin('data')
-
-    try:
-        if isotopologue == "All":
-            x_common = np.linspace(lower_bound, upper_bound, 1000)  # Common x-values
-            y_total = np.zeros_like(x_common)
-
-            for iso, data in ISOTOPOLOGUES[molecule].items():
-                try:
-                    fetch(molecule, MOLECULES[molecule], data["id"], lower_bound, upper_bound)
-                    x, y = getStickXY(molecule)
-                    x = x_conversion_func(x)
-                    y_interp = np.interp(x_common, x, y, left=0, right=0)  # Interpolate y-values to common x-values
-                    y_total += y_interp * data["abundance"]
-
-                    # TODO: Use VMR to replace the abundance, or make a new table column para when Choosing ALL)
-                except:
-                    # If data retrieval fails for an isotopologue, skip it and continue
-                    continue
-
-            plt.plot(x_common, y_total)
-        else:
-            isotopologue_group = ISOTOPOLOGUES[molecule][isotopologue]["id"]
-            fetch(molecule, MOLECULES[molecule], isotopologue_group, lower_bound, upper_bound)
-            x, y = getStickXY(molecule)
-            x = x_conversion_func(x)
-            plt.plot(x, y)
-
-        plt.title(f"Stick Spectrum of {molecule}")
-        plt.xlabel(unit_var.get())
-        plt.ylabel("Intensity (cm-1 mol-1 cm2)")
-        if y_axis.lower() == 'log':
-            plt.yscale('log')
-        plt.show()
-    except Exception as e:
-        messagebox.showerror("Error", f"An error occurred: {e}")
+    for gas in gases:
+        fetch(gas['molecule'], gas['molecule_number'], gas['isotopologue_number'], lower_bound, upper_bound)
+        nu, coef1 = absorptionCoefficient_Voigt([(gas['molecule_number'],
+                                                  gas['isotopologue_number'])],
+                                                gas['molecule'],
+                                                Environment={'p': Pressure / 1013.25, 'T': Temperature},
+                                                OmegaStep=0.00001,
+                                                HITRAN_units=False,
+                                                GammaL='gamma_air')
         
+        nu, coef2 = absorptionCoefficient_Voigt([(gas['molecule_number'],
+                                                  gas['isotopologue_number'])],
+                                                gas['molecule'],
+                                                Environment={'p': Pressure / 1013.25, 'T': Temperature},
+                                                OmegaStep=0.00001,
+                                                HITRAN_units=False,
+                                                GammaL='gamma_self')
+
+        # Gamma_L: _self and _air plus by VMR
+
+        T_nu = np.exp(-np.array(coef1 * (1-gas['VMR']) + coef2 * gas['VMR']) * gas['VMR'] * Length)
+
+        # TODO: compare with the web result specially the y_axis value (Solved!)
+
+        A_nu = 1 - T_nu
+
+        plt.plot(nu, A_nu, label=f"{gas['molecule']} (VMR={gas['VMR']})")
+        total_coef += np.interp(nu_total, nu, coef1 * (1-gas['VMR']) + coef2 * gas['VMR'], left=0, right=0) * gas['VMR']
+
+    T_total = np.exp(-total_coef * Length)
+    A_total = 1 - T_total
+    plt.plot(nu_total, A_total, label='Total', linestyle='--')
+    plt.title('Absorption Intensity of Mixed Gases' + '\n'
+              + " Length(cm): " + str(Length) + " Pressure(mbar): " + str(Pressure) + " Temperature(K): " + str(Temperature))
+    plt.ylabel('Absorption Intensity')
+    plt.grid(True)
+    if y_axis.lower() == 'log':
+        plt.yscale('log')
+    plt.legend()
+    plt.show()
+
+
+def add_gas_window():
+    def on_molecule_selected(event):
+        molecule = molecule_combobox.get()
+        isotopologues_for_molecule = ISOTOPOLOGUES.get(molecule, {})
+        isotopologue_combobox['values'] = list(isotopologues_for_molecule.keys())
+        isotopologue_combobox.set(next(iter(isotopologues_for_molecule)))
+
+    def submit_gas():
+        molecule = molecule_combobox.get()
+        isotopologue = isotopologue_combobox.get()
+        molecule_number = MOLECULES[molecule]
+        isotopologue_number = ISOTOPOLOGUES[molecule][isotopologue]["id"]
+        VMR = VMR_var.get()
+        gas_info = {'molecule': molecule, 'molecule_number': molecule_number, 'isotopologue_number': isotopologue_number, 'VMR': float(VMR)}
+        gases.append(gas_info)
+        gas_listbox.insert(tk.END, f"Molecule: {gas_info['molecule']}, Isotopologue: {isotopologue}, VMR: {gas_info['VMR']}")
+        add_window.destroy()
+
+    add_window = tk.Toplevel(root)
+    add_window.title("Add Gas Information")
+
+    molecule_combobox = ttk.Combobox(add_window, values=list(MOLECULES.keys()))
+    molecule_combobox.bind("<<ComboboxSelected>>", on_molecule_selected)
+    molecule_combobox.grid(row=0, column=1, padx=10, pady=5)
+    ttk.Label(add_window, text="Select the molecule:").grid(row=0, column=0, padx=10, pady=5)
+
+    isotopologue_combobox = ttk.Combobox(add_window)
+    isotopologue_combobox.grid(row=1, column=1, padx=10, pady=5)
+    ttk.Label(add_window, text="Select the isotopologue:").grid(row=1, column=0, padx=10, pady=5)
+
+    VMR_var = tk.StringVar()
+    ttk.Label(add_window, text="Enter the volume mixing ratio (VMR):").grid(row=2, column=0, padx=10, pady=5)
+    ttk.Entry(add_window, textvariable=VMR_var).grid(row=2, column=1, padx=10, pady=5)
+
+    ttk.Button(add_window, text="Submit", command=submit_gas).grid(row=3, column=0, columnspan=2, pady=20)
+
+def fetch_and_plot_gui():
+    try:
+        lower_bound = float(lower_bound_var.get())
+        upper_bound = float(upper_bound_var.get())
+        Length = float(Length_var.get())
+        Pressure = float(Pressure_var.get())
+        Temperature = float(Temperature_var.get())
+        y_axis = y_axis_var.get()
+        unit = unit_var.get()
+
+        fetch_and_plot(gases, lower_bound, upper_bound, Length, Pressure, Temperature, y_axis, unit)
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred: {e}")
+
 # Create the main window
-root = ttkth.ThemedTk(theme="Arc")
-root.title("Line Intensity GUI 4.0")
+root = tk.Tk()
+root.title("Absorption Intensity of Mixed Gases")
 
 # Create and set variables
-molecule_var = tk.StringVar()
-isotopologue_var = tk.StringVar()
+gases = []
 lower_bound_var = tk.StringVar()
 upper_bound_var = tk.StringVar()
+Length_var = tk.StringVar(value="10")
+Pressure_var = tk.StringVar(value="1013.25")
+Temperature_var = tk.StringVar(value="296")
 y_axis_var = tk.StringVar(value="Linear")
 unit_var = tk.StringVar(value="Wavenumber (cm-1)")
 
 # Create widgets
-ttk.Label(root, text="Choose your molecule:").grid(row=0, column=0, padx=10, pady=5)
-molecule_dropdown = ttk.Combobox(root, textvariable=molecule_var, values=list(MOLECULES.keys()))
-molecule_dropdown.grid(row=0, column=1, padx=10, pady=5)
-molecule_dropdown.bind("<<ComboboxSelected>>", on_molecule_selected)
+ttk.Button(root, text="Add Gas", command=add_gas_window).grid(row=0, column=0, columnspan=2, pady=10)
 
-ttk.Label(root, text="Choose Isotopologue:").grid(row=1, column=0, padx=10, pady=5)
-isotopologue_dropdown = ttk.Combobox(root, textvariable=isotopologue_var)
-isotopologue_dropdown.grid(row=1, column=1, padx=10, pady=5)
+# Listbox to display added gases
+gas_listbox = tk.Listbox(root, height=5, width=60)
+gas_listbox.grid(row=1, column=0, columnspan=2, pady=10)
 
-ttk.Label(root, text="Choose your lower bound:").grid(row=2, column=0, padx=10, pady=5)
-ttk.Entry(root, textvariable=lower_bound_var).grid(row=2, column=1, padx=10, pady=5)
+ttk.Label(root, text="Enter the length (in cm):").grid(row=2, column=0, sticky="w", padx=10, pady=5)
+ttk.Entry(root, textvariable=Length_var).grid(row=2, column=1, padx=10, pady=5)
 
-ttk.Label(root, text="Choose your upper bound:").grid(row=3, column=0, padx=10, pady=5)
-ttk.Entry(root, textvariable=upper_bound_var).grid(row=3, column=1, padx=10, pady=5)
+ttk.Label(root, text="Enter the pressure (in mbar):").grid(row=3, column=0, sticky="w", padx=10, pady=5)
+ttk.Entry(root, textvariable=Pressure_var).grid(row=3, column=1, padx=10, pady=5)
 
-ttk.Label(root, text="Scale:").grid(row=4, column=0, padx=10, pady=5)
-ttk.Combobox(root, textvariable=y_axis_var, values=["Linear", "Log"]).grid(row=4, column=1, padx=10, pady=5)
+ttk.Label(root, text="Enter the temperature (in K):").grid(row=4, column=0, sticky="w", padx=10, pady=5)
+ttk.Entry(root, textvariable=Temperature_var).grid(row=4, column=1, padx=10, pady=5)
 
-ttk.Label(root, text="Choose unit type:").grid(row=5, column=0, padx=10, pady=5)
-ttk.Combobox(root, textvariable=unit_var, values=["Wavenumber (cm-1)", "Wavelength (μm)", "Frequency (GHz)"]).grid(row=5, column=1, padx=10, pady=5)
+ttk.Label(root, text="Enter the lower bound:").grid(row=5, column=0, sticky="w", padx=10, pady=5)
+ttk.Entry(root, textvariable=lower_bound_var).grid(row=5, column=1, padx=10, pady=5)
 
-ttk.Button(root, text="Fetch and Plot", command=fetch_and_plot).grid(row=6, column=0, columnspan=2, pady=20)
+ttk.Label(root, text="Enter the upper bound:").grid(row=6, column=0, sticky="w", padx=10, pady=5)
+ttk.Entry(root, textvariable=upper_bound_var).grid(row=6, column=1, padx=10, pady=5)
 
-ttk.Button(root, text="Download Data", command=download_data).grid(row=7, column=0, columnspan=2, pady=20)
+ttk.Label(root, text="Enter the y-axis scale:").grid(row=7, column=0, sticky="w", padx=10, pady=5)
+ttk.Combobox(root, textvariable=y_axis_var, values=["Linear", "Log"]).grid(row=7, column=1, padx=10, pady=5)
 
-molecule_var.trace("w", on_molecule_selected)
+ttk.Label(root, text="Enter the unit:").grid(row=8, column=0, sticky="w", padx=10, pady=5)
+ttk.Combobox(root, textvariable=unit_var, values=["Wavenumber (cm-1)"]).grid(row=8, column=1, padx=10, pady=5)
+
+ttk.Button(root, text="Fetch and Plot", command=fetch_and_plot_gui).grid(row=9, column=0, columnspan=2, pady=20)
+
+# Define the reset_gases function
+def reset_gases():
+    # Clear all items from the Listbox
+    gas_listbox.delete(0, tk.END)
+
+    # Clear the gases list
+    gases.clear()
+
+ttk.Button(root, text="Reset Gases", command=reset_gases).grid(row=10, column=0, columnspan=2, pady=10)
 
 root.mainloop()
