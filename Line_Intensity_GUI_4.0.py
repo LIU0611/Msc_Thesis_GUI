@@ -1,8 +1,7 @@
-from hapi.hapi import *
+from hapi import *
 import matplotlib.pyplot as plt
 import numpy as np
 import tkinter as tk
-from tkinter import *
 from tkinter import ttk, messagebox
 import os
 import csv
@@ -170,6 +169,7 @@ ISOTOPOLOGUES = {
         "D35Cl": {"id": 3, "abundance": 1.180050e-4},
         "D37Cl": {"id": 4, "abundance": 3.773500e-5}
     },
+
     "HBr": {
         "H79Br": {"id": 1, "abundance": 0.506781},
         "H81Br": {"id": 2, "abundance": 0.493063},
@@ -220,6 +220,7 @@ ISOTOPOLOGUES = {
         "H12C13CH": {"id": 2, "abundance": 0.021966},
         "H12C12CD": {"id": 3, "abundance": 3.045500e-4}
     },
+
     "C2H6": {
         "12C2H6": {"id": 1, "abundance": 0.976990},
         "12CH313CH3": {"id": 2, "abundance": 0.021953}
@@ -438,7 +439,7 @@ def fetch_and_plot():
         plt.show()
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
-
+        
 # Create the main window
 root = ttkth.ThemedTk(theme="Arc")
 root.title("Line Intensity GUI 4.0")
