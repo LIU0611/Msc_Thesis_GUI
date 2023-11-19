@@ -1,17 +1,9 @@
-# Research Plan
+<img width="454" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/1473599e-1f77-4744-9dc8-d1f0fc768dc7"># GUI Applications
 
-The research plan consists of the following steps:
+Line_Intensity_GUI_4.0.py is the graphical user interface (GUI) code for Line Intensity Analysis. This is used to investigate the line intensity as a function of wavenumber, wavelength, and frequency for selected molecular species and isotopologies, and the user chooses whether the vertical axis is plotted in linear or log scale.
+![Uploading image.png…]()
 
-Step 0: Replicate Hitran Python API example code. (Completed)
-
-Step 1: Plot line intensity and absorption spectra for selected species and isotopologues as a function of user-selected wavenumber/wavelength/frequency. Ensure the vertical axis can be toggled between linear and log scales.
-
-Step 2: Enable plotting of spectra for gas mixtures, displaying individual spectra of different species in varying colors and the total spectrum.
-
-Step 3: Introduce tools to identify spectral regions for target gas detection without spectral interference. This includes plotting the target gas absorption spectrum separately and the ratio of the target gas spectrum to the sum absorption spectrum of all other gases.
-
-Bonus: Create a GIF showing spectral changes with pressure variations.
-
+Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code for Absorption Spectra Voigt for Mixed Gases. This GUI was developed to analyze absorption spectra using the Voigt profile for mixed gases, ensuring compatibility with the volume mixing ratio (VMR) in the original function (spectra of different molecular species on the same plots, such that shown are (i) individual spectra of different species in different colors and (ii) the total spectrum, which is the sum of individual spectra.), considering user-defined parameters such as volume mixing ratio, temperature, pressure, and path length for selected molecular species and isotopologies.
 
 # Database
 
