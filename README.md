@@ -1,8 +1,10 @@
 # GUI Applications
 
 Line_Intensity_GUI_4.0.py is the graphical user interface (GUI) code for Line Intensity Analysis. This is used to investigate the line intensity as a function of wavenumber, wavelength, and frequency for selected molecular species and isotopologies, and the user chooses whether the vertical axis is plotted in linear or log scale.
+
 <img width="454" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/1473599e-1f77-4744-9dc8-d1f0fc768dc7">
 Figure 1: Simulated HITRAN molecular absorption line Intensity of carbon monoxide. The P-branch is to the left of the gap at 2140(cm-1), and the R-branch is on the right. (Plot by my Line Intensity GUI code)
+
 <img width="362" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/a8169136-0937-4364-a292-787783f07af3">
 Figure 2: Project Workflow for Line Intensity GUI Code
 
