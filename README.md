@@ -10,6 +10,9 @@ Figure 1: Line Intensity GUI Window
 
 Figure 2: Project Workflow for Line Intensity GUI Code
 
+<img width="454" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/ed490291-6d0e-4a0b-a4c0-5d02212b4e09">
+
+Figure 3: Simulated HITRAN molecular absorption line Intensity of carbon monoxide. The P-branch is to the left of the gap at 2140(cm-1), and the R-branch is on the right. (Plot by my Line Intensity GUI code)
 
 # Absorption Spectra Voigt GUI
 
