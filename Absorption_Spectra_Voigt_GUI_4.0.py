@@ -327,14 +327,15 @@ def fetch_and_plot(gases, lower_bound, upper_bound, Length, Pressure, Temperatur
                                                   gas['isotopologue_number'])],
                                                 gas['molecule'],
                                                 Environment={'p': Pressure / 1013.25, 'T': Temperature},
-                                                OmegaStep=0.001,
+                                                OmegaStep=0.00001,
                                                 HITRAN_units=False,
                                                 GammaL='gamma_air')
+        
         nu, coef2 = absorptionCoefficient_Voigt([(gas['molecule_number'],
                                                   gas['isotopologue_number'])],
                                                 gas['molecule'],
                                                 Environment={'p': Pressure / 1013.25, 'T': Temperature},
-                                                OmegaStep=0.001,
+                                                OmegaStep=0.00001,
                                                 HITRAN_units=False,
                                                 GammaL='gamma_self')
 
@@ -460,7 +461,7 @@ ttk.Button(root, text="Fetch and Plot", command=fetch_and_plot_gui).grid(row=9, 
 def reset_gases():
     # Clear all items from the Listbox
     gas_listbox.delete(0, tk.END)
-    
+
     # Clear the gases list
     gases.clear()
 
