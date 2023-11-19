@@ -16,7 +16,7 @@ Line_Intensity_GUI_4.0.py is the graphical user interface (GUI) code for Line In
 
 # Absorption Spectra Voigt GUI
 
-Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code for Absorption Spectra Voigt for Mixed Gases. This GUI was developed to analyze absorption spectra using the Voigt profile for mixed gases, ensuring compatibility with the volume mixing ratio (VMR) in the original function (spectra of different molecular species on the same plots, such that shown are (i) individual spectra of different species in different colors and (ii) the total spectrum, which is the sum of individual spectra.), considering user-defined parameters such as volume mixing ratio, temperature, pressure, and path length for selected molecular species and isotopologies. Absorption_Spectra_Voigt_GUI_download_data.py is the graphical user interface (GUI) code for data download.
+Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code for Absorption Spectra Voigt for Mixed Gases. This GUI was developed to analyze absorption spectra using the Voigt profile for mixed gases, ensuring compatibility with the volume mixing ratio (VMR) in the original function (spectra of different molecular species on the same plots, such that shown are (i) individual spectra of different species in different colors and (ii) the total spectrum, which is the sum of individual spectra.), considering user-defined parameters such as volume mixing ratio, temperature, pressure, and path length for selected molecular species and isotopologies. Absorption_Spectra_Voigt_GUI_download_data.py is the graphical user interface (GUI) code for downloading data related to absorption spectra.
 
   <img width="542" alt="image" src="https://github.com/LIU0611/Msc_Thesis_GUI/assets/80951587/17c3529e-b26d-49c1-8505-a9e2d8957434">
   
@@ -36,7 +36,6 @@ Absorption_Spectra_Voigt_GUI_4.0.py is the graphical user interface (GUI) code f
   - Gases: H₂¹⁶O (VMR: 2.5×10^-3), ¹²C¹⁶O₂ (VMR: 4×10^-4), ¹⁴NH₃ (VMR: 1.5×10^-7)
   - Conditions: Path Length - 10 cm; Pressure - 1013.25 mbar; Temperature - 296 K
 
-
 # Database
 
 Laser spectroscopy databases contain line-specific information, including absorption line positions for species identification, line strength for concentration calculations, and line widths for trace gas quantification. They also include additional parameters for temperature and pressure-dependent corrections. The HITRAN (High-resolution transmission molecular absorption database) is a popular choice, featuring millions of absorption lines for 55 molecules, including different isotopologues, and is regularly updated.
@@ -44,7 +43,7 @@ Laser spectroscopy databases contain line-specific information, including absorp
 The HITRAN data can be accessed using various tools:
   - The official HITRAN website (https://hitran.org/), where the Data Access tab allows plotting of spectral line positions and intensities (free registration required).
   - The user-friendly, free website (http://hitran.iao.ru/) also allows spectroscopic simulations, with some advanced features requiring registration.
-  - Spectralcalc (http://www.spectralcalc.com), is a free portal for plotting spectral line positions and quick simulations, although access to the latest HITRAN edition and advanced features require registration and payment.
+  - Spectralcalc (http://www.spectralcalc.com), is a free portal for plotting spectral line positions and quick simulations, although access to the latest HITRAN edition and advanced features requires registration and payment.
 
 Understanding the documentation page of the HITRAN website before database usage is recommended, especially the HITRAN definitions of the line parameters.
 
