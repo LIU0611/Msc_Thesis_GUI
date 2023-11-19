@@ -3,7 +3,7 @@ import numpy as np
 from hapi import db_begin, fetch, absorptionCoefficient_Voigt
 from tkinter import *
 from tkinter import ttk, messagebox, simpledialog, filedialog
-import tkinter as tk
+import tkinter as tk, ttkthemes
 import ttkthemes as ttkth
 from datetime import datetime
 
@@ -339,7 +339,7 @@ def fetch_and_save_data():
     Length = float(Length_var.get())
     Pressure = float(Pressure_var.get())
     Temperature = float(Temperature_var.get())
-    
+
     db_begin('data')
     fetch(molecule, molecule_number, isotopologue_number, lower_bound, upper_bound)
     nu, coef1 = absorptionCoefficient_Voigt([(molecule_number, isotopologue_number)],
@@ -347,29 +347,15 @@ def fetch_and_save_data():
                                             Environment={'p': Pressure / 1013.25, 'T': Temperature},
                                             OmegaStep=0.001,
                                             HITRAN_units=False,
-                                            GammaL='gamma_air')
+                                            GammaL='gamma_self')
     T_nu = np.exp(-coef1 * Length)
-    
+
     # Prompt user to select save location
     file_name = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
     if not file_name:
         return
-    with open(file_name, 'w') as f:
-        # Write the provided text
-        f.write("# G & A Technical Software, Inc.  (GATS) Spectral Calculator\n")
-        f.write("# http://www.spectralcalc.com\n")
-        f.write("# Cell Number: 1\n")
-        f.write(f"# Pressure (mb) = {Pressure * 1013.25}\n")
-        f.write(f"# Temperature (K) = {Temperature}\n")
-        f.write(f"# Length (cm) = {Length}\n")
-        f.write(f"# Gas               Isotope Id            Volume Mixing Ratio\n")
-        f.write(f"#  {molecule}              {isotopologue_number}  {ISOTOPOLOGUES[molecule][isotopologue_var.get()]['id']}")
-        f.write(f"# Bandpass Starting Wavenumber [cm^-1] = {lower_bound}\n")
-        f.write(f"# Bandpass Ending Wavenumber [cm^-1] = {upper_bound}\n")
-        f.write(f"# Mean Transmittance = {np.mean(T_nu)}\n")
-        
-        # Write the data
-        f.write("Wavenumber [cm^-1]   Transmittance\n")
+    with open(file_name, 'w') as f:# Write the data
+        f.write("Wavenumber[cm^-1]   Transmittance\n")
         for n, t in zip(nu, T_nu):
             f.write(f"{n:.15e} {t:.15e}\n")
     messagebox.showinfo("Info", "Data fetched and saved successfully!")
@@ -406,7 +392,7 @@ ttk.Entry(root, textvariable=upper_bound_var).grid(row=3, column=1, padx=10, pad
 ttk.Label(root, text="Length (cm):").grid(row=4, column=0, padx=10, pady=5)
 ttk.Entry(root, textvariable=Length_var).grid(row=4, column=1, padx=10, pady=5)
 
-ttk.Label(root, text="Pressure (mb):").grid(row=5, column=0, padx=10, pady=5)
+ttk.Label(root, text="Pressure (mbar):").grid(row=5, column=0, padx=10, pady=5)
 ttk.Entry(root, textvariable=Pressure_var).grid(row=5, column=1, padx=10, pady=5)
 
 ttk.Label(root, text="Temperature (K):").grid(row=6, column=0, padx=10, pady=5)
