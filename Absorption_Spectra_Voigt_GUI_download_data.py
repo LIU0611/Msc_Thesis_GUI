@@ -12,7 +12,6 @@ current_time = datetime.now()
 
 print(f"The HITRAN database current date is {current_time}") # database current date
 
-
 MOLECULES = {
     "H2O": 1,
     "CO2": 2,
